@@ -6,6 +6,18 @@ import { PartialUserDto } from './dto/partialUserinput.dto';
 export class UserService {
   private users: IUserEntity[] = [];
 
+  async getAllUsers(): Promise<IUserEntity[]> {
+    return this.users;
+  }
+
+  async getUserById(userId: string): Promise<IUserEntity> {
+    const existiUser = this.users.find((user) => user.id === userId);
+    if (!existiUser) {
+      throw new Error('Usuário não encontrado');
+    }
+    return existiUser;
+  }
+
   async createUser(user: UserDto): Promise<IUserEntity> {
     const userEntity = { ...user, id: randomUUID() };
     this.users.push(userEntity);
@@ -23,10 +35,6 @@ export class UserService {
     return updateUser;
   }
 
-  async getAllUsers(): Promise<IUserEntity[]> {
-    return this.users;
-  }
-
   async deleteUserById(userId: string): Promise<boolean> {
     const existiUser = this.users.find((user) => user.id === userId);
     if (!existiUser) {
@@ -38,13 +46,5 @@ export class UserService {
       }
     });
     return true;
-  }
-
-  async getUserById(userId: string): Promise<IUserEntity> {
-    const existiUser = this.users.find((user) => user.id === userId);
-    if (!existiUser) {
-      throw new Error('Usuário não encontrado');
-    }
-    return existiUser;
   }
 }
