@@ -10,4 +10,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
+model User {
+  id        String   @id @unique
+  name      String
+  email     String   @unique
+  password  String
+  cpf       String   @unique
+  role      String
+  CreatedAt DateTime @default(now()) //saber a data que o dado foi criado
+  updatedAt DateTime @updatedAt //saber a data da ultima x que o dado foi atualizado
+}
