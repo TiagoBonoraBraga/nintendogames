@@ -2,49 +2,47 @@ import { IUserEntity } from '../entities/user.entity';
 import { UserDto } from './dto/userinput.dto';
 import { randomUUID } from 'crypto';
 import { PartialUserDto } from './dto/partialUserinput.dto';
+import { UserRepository } from '../user.repository';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class UserService {
-  private users: IUserEntity[] = [];
+  constructor(private readonly userRepository: UserRepository) {}
 
   async getAllUsers(): Promise<IUserEntity[]> {
-    return this.users;
+    return await this.userRepository.findAllUsers();
   }
 
   async getUserById(userId: string): Promise<IUserEntity> {
-    const existiUser = this.users.find((user) => user.id === userId);
-    if (!existiUser) {
-      throw new Error('Usuário não encontrado');
-    }
-    return existiUser;
+    const foundUser = await this.userRepository.findUserById(userId);
+    return foundUser;
   }
 
   async createUser(user: UserDto): Promise<IUserEntity> {
     const userEntity = { ...user, id: randomUUID() };
-    this.users.push(userEntity);
-    return userEntity;
+    if (user.password.length <= 7) {
+      throw new Error('enha inválida');
+    }
+    const createdUser = await this.userRepository.createUser(userEntity);
+    return createdUser;
   }
 
   async updateUser(userData: PartialUserDto): Promise<IUserEntity> {
-    this.users.map((user, index) => {
-      if (user.id === userData.id) {
-        const UpdateUser = Object.assign(user, userData);
-        this.users.splice(index, 1, UpdateUser);
-      }
-    });
-    const updateUser = this.users.find((user) => user.id === userData.id);
-    return updateUser;
+    const updatedUser = await this.userRepository.updateUser(userData);
+    return updatedUser;
   }
 
   async deleteUserById(userId: string): Promise<boolean> {
-    const existiUser = this.users.find((user) => user.id === userId);
-    if (!existiUser) {
-      return false;
-    }
-    this.users.map((user, index) => {
-      if (user.id === userId) {
-        this.users.splice(index, 1);
+    try {
+      const existiUser = this.userRepository.deleteUser(userId);
+      if (existiUser) {
+        return true;
+      } else {
+        return false;
       }
-    });
-    return true;
+    } catch (error) {
+      console.log(error);
+      return true;
+    }
   }
 }
