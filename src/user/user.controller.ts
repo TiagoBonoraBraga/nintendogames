@@ -60,7 +60,7 @@ export class UserController {
     @Body() userData: PartialUserDto,
   ): Promise<IUserEntity> {
     try {
-      return await this.service.updateUser(userData);
+      return await this.service.updateUser(id, userData);
     } catch (error) {
       console.log(error);
     }

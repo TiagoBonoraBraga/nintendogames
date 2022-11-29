@@ -27,8 +27,8 @@ export class UserService {
     return createdUser;
   }
 
-  async updateUser(userData: PartialUserDto): Promise<IUserEntity> {
-    const updatedUser = await this.userRepository.updateUser(userData);
+  async updateUser(id: string, userData: PartialUserDto): Promise<IUserEntity> {
+    const updatedUser = await this.userRepository.updateUser(id, userData);
     return updatedUser;
   }
 
