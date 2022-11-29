@@ -54,8 +54,11 @@ export class UserController {
     }
   }
 
-  @Patch()
-  async updateUser(@Body() userData: PartialUserDto): Promise<IUserEntity> {
+  @Patch(':id')
+  async updateUser(
+    @Param('id') id: string,
+    @Body() userData: PartialUserDto,
+  ): Promise<IUserEntity> {
     try {
       return await this.service.updateUser(userData);
     } catch (error) {
