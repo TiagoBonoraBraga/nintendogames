@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { Exceptions } from 'src/utils/exceptions/exceptionsHelper';
 import { IUserEntity } from './entities/user.entity';
 import { PartialUserDto } from './services/dto/partialUserInput.dto';
 
@@ -8,8 +9,15 @@ export class UserRepository {
   constructor(private readonly prisma: PrismaService) {}
 
   async createUser(user: IUserEntity): Promise<IUserEntity> {
-    const CreatedUser = await this.prisma.user.create({ data: user });
-    return CreatedUser;
+    try {
+      const CreatedUser = await this.prisma.user.create({ data: user });
+      return CreatedUser;
+    } catch (error) {
+      throw {
+        message: 'Error ao criar: usuário, cpf ou email já cadastrados',
+        exception: Exceptions.DatabaseException,
+      };
+    }
   }
 
   async updateUser(id: string, user: PartialUserDto): Promise<IUserEntity> {

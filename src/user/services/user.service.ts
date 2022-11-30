@@ -4,6 +4,7 @@ import { randomUUID } from 'crypto';
 import { PartialUserDto } from './dto/partialUserinput.dto';
 import { UserRepository } from '../user.repository';
 import { Injectable } from '@nestjs/common';
+import { Exceptions } from 'src/utils/exceptions/exceptionsHelper';
 
 @Injectable()
 export class UserService {
@@ -21,7 +22,10 @@ export class UserService {
   async createUser(user: UserDto): Promise<IUserEntity> {
     const userEntity = { ...user, id: randomUUID() };
     if (user.password.length <= 7) {
-      throw new Error('Senha inválida');
+      throw {
+        message: 'Senha deve ter no mínio 7 characteres',
+        exceptions: Exceptions.InvalidData,
+      };
     }
     const createdUser = await this.userRepository.createUser(userEntity);
     return createdUser;
