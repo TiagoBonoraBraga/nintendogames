@@ -1,1 +1,3 @@
-export class CreateGeneroDto {}
+export class CreateGeneroDto {
+  titulo: string;
+}
