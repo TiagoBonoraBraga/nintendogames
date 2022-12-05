@@ -1,18 +1,26 @@
 import { Injectable } from '@nestjs/common';
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
+import { ProfileRepository } from './profile.repository';
+import { randomUUID } from 'crypto';
 
 @Injectable()
 export class ProfileService {
-  create(createProfileDto: CreateProfileDto) {
-    return 'This action adds a new profile';
+  constructor(private readonly profileRepository: ProfileRepository) {}
+
+  async createProfile(profile: CreateProfileDto): Promise<CreateProfileDto> {
+    const profileEntity = { ...profile, id: randomUUID() };
+    const createdProfile = await this.profileRepository.createProfile(
+      profileEntity,
+    );
+    return createdProfile;
   }
 
-  findAll() {
+  getAllProfiles() {
     return `This action returns all profile`;
   }
 
-  findOne(id: number) {
+  getAll(id: number) {
     return `This action returns a #${id} profile`;
   }
 

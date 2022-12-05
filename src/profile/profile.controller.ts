@@ -10,6 +10,7 @@ import {
 import { ProfileService } from './profile.service';
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
+import { Profile } from './entities/profile.entity';
 
 @Controller('profile')
 export class ProfileController {
@@ -21,8 +22,8 @@ export class ProfileController {
   }
 
   @Get()
-  findAll() {
-    return this.profileService.findAll();
+  async getAllProfiles(): Promise<Profile[]> {
+    return this.profileService.getAllProfiles();
   }
 
   @Get(':id')
