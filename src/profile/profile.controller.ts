@@ -6,19 +6,34 @@ import {
   Patch,
   Param,
   Delete,
+  Res,
 } from '@nestjs/common';
 import { ProfileService } from './profile.service';
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { Profile } from './entities/profile.entity';
+import { handleException } from 'src/utils/exceptions/exceptionsHelper';
+import { Response } from 'express';
 
 @Controller('profile')
 export class ProfileController {
+  service: any;
   constructor(private readonly profileService: ProfileService) {}
 
   @Post()
-  create(@Body() createProfileDto: CreateProfileDto) {
-    return this.profileService.create(createProfileDto);
+  async createProfile(
+    @Body() { name, image }: CreateProfileDto,
+    @Res() response: Response,
+  ) {
+    try {
+      const result = await this.profileService.createProfile({
+        name,
+        image,
+      });
+      response.status(201).send(result);
+    } catch (error) {
+      handleException(error);
+    }
   }
 
   @Get()
@@ -27,17 +42,35 @@ export class ProfileController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.profileService.findOne(+id);
+  async getProfileById(@Param('id') profileId: string): Promise<Profile> {
+    try {
+      return await this.profileService.getProfileById(profileId);
+    } catch (error) {
+      handleException(error);
+    }
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProfileDto: UpdateProfileDto) {
-    return this.profileService.update(+id, updateProfileDto);
+  async updateProfile(
+    @Param('id') id: string,
+    @Body() profileData: UpdateProfileDto,
+  ): Promise<UpdateProfileDto> {
+    try {
+      return await this.profileService.updateProfile(id, profileData);
+    } catch (error) {
+      handleException(error);
+    }
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.profileService.remove(+id);
+  async DeleteProfileById(@Param('id') profileId: string): Promise<string> {
+    const profileIsDeleted = await this.profileService.deleteProfileById(
+      profileId,
+    );
+    if (profileIsDeleted) {
+      return 'Profile deletado com sucesso';
+    } else {
+      return 'Profile não encontrado';
+    }
   }
 }
