@@ -7,6 +7,9 @@ import { Profile } from './entities/profile.entity';
 
 @Injectable()
 export class ProfileRepository {
+  findAllUsers(): Profile[] | PromiseLike<Profile[]> {
+    throw new Error('Method not implemented.');
+  }
   constructor(private readonly prisma: PrismaService) {}
 
   async createProfile(profile: Profile): Promise<Profile> {
@@ -52,7 +55,7 @@ export class ProfileRepository {
     }
   }
 
-  async findAllUsers(): Promise<Profile[]> {
+  async findAllProfiles(): Promise<Profile[]> {
     try {
       const allProfiles = await this.prisma.profile.findMany();
       return allProfiles;
@@ -61,7 +64,7 @@ export class ProfileRepository {
     }
   }
 
-  async findUserById(id: string): Promise<Profile> {
+  async findProfileById(id: string): Promise<Profile> {
     try {
       const foundProfile = await this.prisma.profile.findUniqueOrThrow({
         where: { id: id },

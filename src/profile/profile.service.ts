@@ -3,6 +3,7 @@ import { CreateProfileDto } from './dto/create-profile.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { ProfileRepository } from './profile.repository';
 import { randomUUID } from 'crypto';
+import { Profile } from './entities/profile.entity';
 
 @Injectable()
 export class ProfileService {
@@ -16,19 +17,39 @@ export class ProfileService {
     return createdProfile;
   }
 
-  getAllProfiles() {
-    return `This action returns all profile`;
+  async getAllProfiles(): Promise<Profile[]> {
+    return await this.profileRepository.findAllUsers();
   }
 
-  getAll(id: number) {
-    return `This action returns a #${id} profile`;
+  async getProfileById(profileId: string): Promise<Profile> {
+    const foundProfile = await this.profileRepository.findProfileById(
+      profileId,
+    );
+    return foundProfile;
   }
 
-  update(id: number, updateProfileDto: UpdateProfileDto) {
-    return `This action updates a #${id} profile`;
+  async updateProfile(
+    id: string,
+    profileData: UpdateProfileDto,
+  ): Promise<UpdateProfileDto> {
+    const updatedProfile = await this.profileRepository.updateProfile(
+      id,
+      profileData,
+    );
+    return updatedProfile;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} profile`;
+  async deleteProfileById(profileId: string): Promise<boolean> {
+    try {
+      const existiProfile = await this.profileRepository.deleteProfile(
+        profileId,
+      );
+      if (existiProfile) {
+        return true;
+      }
+    } catch (error) {
+      console.log(error);
+      return true;
+    }
   }
 }
