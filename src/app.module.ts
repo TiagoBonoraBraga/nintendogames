@@ -6,6 +6,10 @@ import { UserRepository } from './user/user.repository';
 import { ProfileModule } from './profile/profile.module';
 import { GamesModule } from './games/games.module';
 import { GenerosModule } from './generos/generos.module';
+import { PrismaService } from './prisma/prisma.service';
+// import { ProfileController } from './profile/profile.controller';
+// import { ProfileRepository } from './profile/profile.repository';
+// import { ProfileService } from './profile/profile.service';
 
 @Module({
   imports: [DatabaseModule, ProfileModule, GamesModule, GenerosModule],
