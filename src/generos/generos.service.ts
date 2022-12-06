@@ -1,26 +1,52 @@
 import { Injectable } from '@nestjs/common';
+import { randomUUID } from 'crypto';
 import { CreateGeneroDto } from './dto/create-genero.dto';
 import { UpdateGeneroDto } from './dto/update-genero.dto';
+import { Genero } from './entities/genero.entity';
+import { GeneroRepository } from './genero.repository';
 
 @Injectable()
 export class GenerosService {
-  create(createGeneroDto: CreateGeneroDto) {
-    return 'This action adds a new genero';
+  generoRepository: any;
+  constructor(private readonly profileRepository: GeneroRepository) {}
+
+  async createGenero(genero: CreateGeneroDto): Promise<CreateGeneroDto> {
+    const generoEntity = { ...genero, id: randomUUID() };
+    const createdGenero = await this.generoRepository.createGenero(
+      generoEntity,
+    );
+    return createdGenero;
   }
 
-  findAll() {
-    return `This action returns all generos`;
+  async getAllGeneros(): Promise<Genero[]> {
+    return await this.generoRepository.findAllGeneros();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} genero`;
+  async getGeneroById(generoId: string): Promise<Genero> {
+    const foundGenero = await this.profileRepository.findGeneroById(generoId);
+    return foundGenero;
   }
 
-  update(id: number, updateGeneroDto: UpdateGeneroDto) {
-    return `This action updates a #${id} genero`;
+  async updateGenero(
+    id: string,
+    generoData: UpdateGeneroDto,
+  ): Promise<UpdateGeneroDto> {
+    const updatedGenero = await this.generoRepository.updateGenero(
+      id,
+      generoData,
+    );
+    return updatedGenero;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} genero`;
+  async deleteGeneroById(generoId: string): Promise<boolean> {
+    try {
+      const existiGenero = await this.generoRepository.deleteGenero(generoId);
+      if (existiGenero) {
+        return true;
+      }
+    } catch (error) {
+      console.log(error);
+      return true;
+    }
   }
 }

@@ -18,7 +18,7 @@ export class ProfileService {
   }
 
   async getAllProfiles(): Promise<Profile[]> {
-    return await this.profileRepository.findAllUsers();
+    return await this.profileRepository.findAllProfiles();
   }
 
   async getProfileById(profileId: string): Promise<Profile> {
