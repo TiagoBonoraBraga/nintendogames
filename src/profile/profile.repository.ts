@@ -7,9 +7,6 @@ import { Profile } from './entities/profile.entity';
 
 @Injectable()
 export class ProfileRepository {
-  findAllUsers(): Profile[] | PromiseLike<Profile[]> {
-    throw new Error('Method not implemented.');
-  }
   constructor(private readonly prisma: PrismaService) {}
 
   async createProfile(profile: Profile): Promise<Profile> {
