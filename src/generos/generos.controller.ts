@@ -6,37 +6,69 @@ import {
   Patch,
   Param,
   Delete,
+  Res,
 } from '@nestjs/common';
 import { GenerosService } from './generos.service';
 import { CreateGeneroDto } from './dto/create-genero.dto';
 import { UpdateGeneroDto } from './dto/update-genero.dto';
+import { Response } from 'express';
+import { handleException } from 'src/utils/exceptions/exceptionsHelper';
+import { Genero } from './entities/genero.entity';
 
 @Controller('generos')
 export class GenerosController {
   constructor(private readonly generosService: GenerosService) {}
 
   @Post()
-  create(@Body() createGeneroDto: CreateGeneroDto) {
-    return this.generosService.create(createGeneroDto);
+  async createGenero(
+    @Body() { titulo }: CreateGeneroDto,
+    @Res() response: Response,
+  ) {
+    try {
+      const result = await this.generosService.createGenero({
+        titulo,
+      });
+      response.status(201).send(result);
+    } catch (error) {
+      handleException(error);
+    }
   }
 
   @Get()
-  findAll() {
-    return this.generosService.findAll();
+  async getAllGeneros(): Promise<Genero[]> {
+    return this.generosService.getAllGeneros();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.generosService.findOne(+id);
+  async getGeneroById(@Param('id') generoId: string): Promise<Genero> {
+    try {
+      return await this.generosService.getGeneroById(generoId);
+    } catch (error) {
+      handleException(error);
+    }
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateGeneroDto: UpdateGeneroDto) {
-    return this.generosService.update(+id, updateGeneroDto);
+  async updateGenero(
+    @Param('id') id: string,
+    @Body() generoData: UpdateGeneroDto,
+  ): Promise<UpdateGeneroDto> {
+    try {
+      return await this.generosService.updateGenero(id, generoData);
+    } catch (error) {
+      handleException(error);
+    }
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.generosService.remove(+id);
+  async DeleteGeneroById(@Param('id') generoId: string): Promise<string> {
+    const generoIsDeleted = await this.generosService.deleteGeneroById(
+      generoId,
+    );
+    if (generoIsDeleted) {
+      return 'Genero deletado com sucesso';
+    } else {
+      return 'Genero não encontrado';
+    }
   }
 }

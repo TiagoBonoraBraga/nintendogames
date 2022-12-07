@@ -17,7 +17,7 @@ model User {
   password  String
   cpf       String   @unique
   role      String
-  profile Profile[]
+  profiles Profile[] // um user tem varios profiles (array de profiles)
   CreatedAt DateTime @default(now()) //saber a data que o dado foi criado
   updatedAt DateTime @updatedAt //saber a data da ultima x que o dado foi atualizado
 }
@@ -26,9 +26,9 @@ model Profile {
   id String @id @unique
   name String
   image String
-  user User? @relation(fields: [userId], references: [id])
-  userId String?
-  Games Games[]
+  user User @relation(fields: [userId], references: [id]) //relaciona o campo da model profile com o id do user
+  userId String
+  Games Games[] //um profile pode ter mt jogos
 }
 
 model Games {
@@ -39,14 +39,13 @@ model Games {
   autor String
   produtora String
   score Float
-  profile Profile? @relation(fields: [profileId], references: [id])
-  profileId String
+  profiles Profile[]
+  
   genero Genero[]
 }
 
 model Genero {
   id String @id @unique
   titulo String
-  games Games? @relation(fields: [gamesId], references: [id])
-  gamesId String
+ games Games[]
 }
