@@ -1,26 +1,46 @@
 import { Injectable } from '@nestjs/common';
 import { CreateGameDto } from './dto/create-game.dto';
 import { UpdateGameDto } from './dto/update-game.dto';
+import { randomUUID } from 'crypto';
+import { GamesRepository } from './games.repository';
+import { Game } from './entities/game.entity';
 
 @Injectable()
 export class GamesService {
-  create(createGameDto: CreateGameDto) {
-    return 'This action adds a new game';
+  constructor(private readonly gameRepository: GamesRepository) {}
+
+  async createGame(game: CreateGameDto): Promise<CreateGameDto> {
+    const gameEntity = { ...game, id: randomUUID() };
+    const createdGame = await this.gameRepository.createGame(gameEntity);
+    return createdGame;
   }
 
-  findAll() {
-    return `This action returns all games`;
+  async getAllGames(): Promise<Game[]> {
+    return await this.gameRepository.findAllGames();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} game`;
+  async getGameById(gameId: string): Promise<Game> {
+    const foundGame = await this.gameRepository.findGameById(gameId);
+    return foundGame;
   }
 
-  update(id: number, updateGameDto: UpdateGameDto) {
-    return `This action updates a #${id} game`;
+  async updateGame(
+    id: string,
+    gameData: UpdateGameDto,
+  ): Promise<UpdateGameDto> {
+    const updatedGame = await this.gameRepository.updateGame(id, gameData);
+    return updatedGame;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} game`;
+  async deleteGameById(gameId: string): Promise<boolean> {
+    try {
+      const existiGame = await this.gameRepository.deleteGame(gameId);
+      if (existiGame) {
+        return true;
+      }
+    } catch (error) {
+      console.log(error);
+      return true;
+    }
   }
 }

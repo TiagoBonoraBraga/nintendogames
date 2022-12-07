@@ -7,8 +7,7 @@ import { GeneroRepository } from './genero.repository';
 
 @Injectable()
 export class GenerosService {
-  generoRepository: any;
-  constructor(private readonly profileRepository: GeneroRepository) {}
+  constructor(private readonly generoRepository: GeneroRepository) {}
 
   async createGenero(genero: CreateGeneroDto): Promise<CreateGeneroDto> {
     const generoEntity = { ...genero, id: randomUUID() };
@@ -23,7 +22,7 @@ export class GenerosService {
   }
 
   async getGeneroById(generoId: string): Promise<Genero> {
-    const foundGenero = await this.profileRepository.findGeneroById(generoId);
+    const foundGenero = await this.generoRepository.findGeneroById(generoId);
     return foundGenero;
   }
 
