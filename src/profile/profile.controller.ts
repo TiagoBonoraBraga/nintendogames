@@ -14,7 +14,9 @@ import { UpdateProfileDto } from './dto/update-profile.dto';
 import { Profile } from './entities/profile.entity';
 import { handleException } from 'src/utils/exceptions/exceptionsHelper';
 import { Response } from 'express';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Profile')
 @Controller('profile')
 export class ProfileController {
   service: any;

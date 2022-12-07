@@ -14,7 +14,9 @@ import { UpdateGeneroDto } from './dto/update-genero.dto';
 import { Response } from 'express';
 import { handleException } from 'src/utils/exceptions/exceptionsHelper';
 import { Genero } from './entities/genero.entity';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Generos')
 @Controller('generos')
 export class GenerosController {
   constructor(private readonly generosService: GenerosService) {}

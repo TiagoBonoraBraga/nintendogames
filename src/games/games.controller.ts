@@ -14,7 +14,9 @@ import { UpdateGameDto } from './dto/update-game.dto';
 import { Response } from 'express';
 import { handleException } from 'src/utils/exceptions/exceptionsHelper';
 import { Game } from './entities/game.entity';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Games')
 @Controller('games')
 export class GamesController {
   constructor(private readonly gamesService: GamesService) {}
