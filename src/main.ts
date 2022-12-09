@@ -11,6 +11,7 @@ async function bootstrap() {
     .setDescription('Api de jogos antigos NintedoGames')
     .setVersion('1.0')
     .addTag('Nintendo Games')
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

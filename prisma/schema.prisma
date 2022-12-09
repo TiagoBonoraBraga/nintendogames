@@ -26,8 +26,8 @@ model Profile {
   id String @id @unique
   name String
   image String
-  user User @relation(fields: [userId], references: [id]) //relaciona o campo da model profile com o id do user
-  userId String
+  user User? @relation(fields: [userId], references: [id]) //relaciona o campo da model profile com o id do user
+  userId String?
   Games Games[] //um profile pode ter mt jogos
 }
 

@@ -11,7 +11,7 @@ export class CreateGameDto {
 
   @ApiProperty()
   @IsNumber()
-  year: Date;
+  year: number;
 
   @ApiProperty()
   @IsString()

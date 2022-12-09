@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Exception } from 'src/utils/exceptions/exception';
 import { Exceptions } from 'src/utils/exceptions/exceptionsHelper';
+import { CreateProfileDto } from './dto/create-profile.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { Profile } from './entities/profile.entity';
 
@@ -9,10 +10,10 @@ import { Profile } from './entities/profile.entity';
 export class ProfileRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  async createProfile(profile: Profile): Promise<Profile> {
+  async createProfile(profile: CreateProfileDto): Promise<Profile> {
     try {
       const CreatedProfile = await this.prisma.profile.create({
-        data: profile,
+        data: { ...profile, id: '' },
       });
       return CreatedProfile;
     } catch (error) {

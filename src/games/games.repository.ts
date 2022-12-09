@@ -11,7 +11,7 @@ export class GamesRepository {
 
   async findAllGames(): Promise<Game[]> {
     try {
-      const allGames = await this.prisma.game.findMany();
+      const allGames = await this.prisma.games.findMany();
       return allGames;
     } catch (error) {
       throw new Exception(Exceptions.DatabaseException);
@@ -20,7 +20,7 @@ export class GamesRepository {
 
   async findGameById(id: string): Promise<Game> {
     try {
-      const foundGame = await this.prisma.game.findUniqueOrThrow({
+      const foundGame = await this.prisma.games.findUniqueOrThrow({
         where: { id: id },
       });
       return foundGame;
@@ -31,7 +31,7 @@ export class GamesRepository {
 
   async createGame(game: Game): Promise<Game> {
     try {
-      const CreatedGame = await this.prisma.game.create({
+      const CreatedGame = await this.prisma.games.create({
         data: game,
       });
       return CreatedGame;
@@ -42,7 +42,7 @@ export class GamesRepository {
 
   async updateGame(id: string, game: UpdateGameDto): Promise<UpdateGameDto> {
     try {
-      const UpdatedGame = await this.prisma.game.update({
+      const UpdatedGame = await this.prisma.games.update({
         where: { id: id },
         data: game,
       });
@@ -54,7 +54,7 @@ export class GamesRepository {
 
   async deleteGame(id: string): Promise<Game> {
     try {
-      const deletedGame = await this.prisma.game.delete({
+      const deletedGame = await this.prisma.games.delete({
         where: { id: id },
       });
       return deletedGame;
