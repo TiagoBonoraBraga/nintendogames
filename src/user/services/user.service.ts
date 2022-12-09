@@ -55,4 +55,9 @@ export class UserService {
       return true;
     }
   }
+
+  async findUserByEmail(email: string): Promise<IUserEntity> {
+    const user = await this.userRepository.findUserByEmail(email);
+    return user;
+  }
 }
