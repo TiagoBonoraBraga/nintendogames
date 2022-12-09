@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Exception } from 'src/utils/exceptions/exception';
 import { Exceptions } from 'src/utils/exceptions/exceptionsHelper';
+import { CreateGameDto } from './dto/create-game.dto';
 import { UpdateGameDto } from './dto/update-game.dto';
 import { Game } from './entities/game.entity';
 
@@ -29,10 +30,10 @@ export class GamesRepository {
     }
   }
 
-  async createGame(game: Game): Promise<Game> {
+  async createGame(game: CreateGameDto): Promise<Game> {
     try {
       const CreatedGame = await this.prisma.games.create({
-        data: game,
+        data: { ...game, id: '' },
       });
       return CreatedGame;
     } catch (error) {

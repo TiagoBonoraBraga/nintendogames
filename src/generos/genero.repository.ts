@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Exception } from 'src/utils/exceptions/exception';
 import { Exceptions } from 'src/utils/exceptions/exceptionsHelper';
+import { CreateGeneroDto } from './dto/create-genero.dto';
 import { UpdateGeneroDto } from './dto/update-genero.dto';
 import { Genero } from './entities/genero.entity';
 
@@ -29,10 +30,10 @@ export class GeneroRepository {
     }
   }
 
-  async createGenero(genero: Genero): Promise<Genero> {
+  async createGenero(genero: CreateGeneroDto): Promise<Genero> {
     try {
       const CreatedGenero = await this.prisma.genero.create({
-        data: genero,
+        data: { ...genero, id: '' },
       });
       return CreatedGenero;
     } catch (error) {
