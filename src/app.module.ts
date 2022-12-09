@@ -6,7 +6,7 @@ import { UserRepository } from './user/user.repository';
 import { ProfileModule } from './profile/profile.module';
 import { GamesModule } from './games/games.module';
 import { GenerosModule } from './generos/generos.module';
-import { PrismaService } from './prisma/prisma.service';
+// import { PrismaService } from './prisma/prisma.service';
 import { AuthModule } from './auth/auth.module';
 // import { ProfileController } from './profile/profile.controller';
 // import { ProfileRepository } from './profile/profile.repository';
