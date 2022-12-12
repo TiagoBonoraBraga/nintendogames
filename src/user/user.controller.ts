@@ -8,9 +8,9 @@ import {
   Post,
   Res,
 } from '@nestjs/common';
-// import { IHttpResponse } from 'src/utils/httpResponse';
+
 import { IUserEntity } from './entities/user.entity';
-import { PartialUserDto } from './services/dto/partialUserInput.dto';
+import { PartialUserDto } from './services/dto/PartialUserInput.dto';
 import { UserDto } from './services/dto/userinput.dto';
 import { UserService } from './services/user.service';
 import { Response } from 'express';
