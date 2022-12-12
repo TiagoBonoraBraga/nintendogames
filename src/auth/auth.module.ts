@@ -13,7 +13,7 @@ import { AuthStrategy } from './auth.strategy';
   imports: [
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
-      secret: process.env.SECRET_KEY,
+      secret: 'batatfrita',
       signOptions: { expiresIn: '24h' },
     }),
     ConfigModule.forRoot(),

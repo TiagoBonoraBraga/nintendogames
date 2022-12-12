@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 // import { IHttpResponse } from 'src/utils/httpResponse';
 import { IUserEntity } from './entities/user.entity';
-import { PartialUserDto } from './services/dto/partialUserinput.dto';
+import { PartialUserDto } from './services/dto/partialUserInput.dto';
 import { UserDto } from './services/dto/userinput.dto';
 import { UserService } from './services/user.service';
 import { Response } from 'express';
