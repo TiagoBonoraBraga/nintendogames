@@ -22,7 +22,12 @@ export class AuthService {
     }
     delete user.password;
     return {
-      token: this.jwtService.sign(user),
+      token: this.jwtService.sign({
+        email: user.email,
+        id: user.id,
+        name: user.name,
+        role: user.role,
+      }),
       user,
     };
   }

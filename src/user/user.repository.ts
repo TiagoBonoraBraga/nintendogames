@@ -69,14 +69,14 @@ export class UserRepository {
 
   async findUserByEmail(email: string): Promise<IUserEntity> {
     try {
-      const foundUser = await this.prisma.user.findFirstOrThrow({
+      const foundUser = await this.prisma.user.findUniqueOrThrow({
         where: { email: email },
       });
       return foundUser;
     } catch (erro) {
       throw new Exception(
         Exceptions.DatabaseException,
-        'Usuário não encontradocom esse email',
+        'Usuário não encontrado com esse email',
       );
     }
   }

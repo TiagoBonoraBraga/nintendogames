@@ -23,6 +23,7 @@ export class GamesRepository {
     try {
       const foundGame = await this.prisma.games.findUniqueOrThrow({
         where: { id: id },
+        // include: { games: true },
       });
       return foundGame;
     } catch (error) {
@@ -34,6 +35,10 @@ export class GamesRepository {
     try {
       const CreatedGame = await this.prisma.games.create({
         data: { ...game, id: '' },
+        // include: { games: true },
+        // connect: {
+        //   id: games.id,
+        // },
       });
       return CreatedGame;
     } catch (error) {
