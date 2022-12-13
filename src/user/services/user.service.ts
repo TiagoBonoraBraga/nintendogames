@@ -1,7 +1,7 @@
 import { IUserEntity } from '../entities/user.entity';
 import { UserDto } from './dto/userinput.dto';
 import { randomUUID } from 'crypto';
-import { PartialUserDto } from './dto/PPartialUserInput.dto';
+import { PartialUserDto } from './dto/PartialUserInput.dto';
 import { UserRepository } from '../user.repository';
 import { Injectable } from '@nestjs/common';
 import { Exceptions } from 'src/utils/exceptions/exceptionsHelper';

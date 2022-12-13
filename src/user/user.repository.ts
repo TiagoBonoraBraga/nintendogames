@@ -4,7 +4,7 @@ import { Exception } from 'src/utils/exceptions/exception';
 import { Exceptions } from 'src/utils/exceptions/exceptionsHelper';
 import { IUserEntity } from './entities/user.entity';
 
-import { PartialUserDto } from './services/dto/PPartialUserInput.dto';
+import { PartialUserDto } from './services/dto/PartialUserInput.dto';
 
 @Injectable()
 export class UserRepository {
